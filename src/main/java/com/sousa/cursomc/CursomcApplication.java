@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.sousa.cursomc.domain.Categoria;
+import com.sousa.cursomc.domain.Cidade;
+import com.sousa.cursomc.domain.Estado;
 import com.sousa.cursomc.domain.Produto;
 import com.sousa.cursomc.repository.CategoriaRepository;
+import com.sousa.cursomc.repository.CidadeRepository;
+import com.sousa.cursomc.repository.EstadoRepository;
 import com.sousa.cursomc.repository.ProdutoRepository;
 
 @SpringBootApplication
@@ -20,6 +24,12 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private EstadoRepository estadoRepository;
+	
+	@Autowired
+	private CidadeRepository cidadeRepository;
 	 
 
 	public static void main(String[] args) {
@@ -28,7 +38,8 @@ public class CursomcApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		 
+		
+		//ManyToMany
 		Categoria cat1 = new Categoria(null, "Informatica");
 		Categoria cat2 = new Categoria(null, "Escritorio");
 		
@@ -49,10 +60,21 @@ public class CursomcApplication implements CommandLineRunner{
 		categoriaRepository.save(Arrays.asList(cat1,cat2));
 		produtoRepository.save(Arrays.asList(p1,p2,p3));
 		
+		//OneToMany e ManyToOne.... 
+		//Cidade ja consegue pegar estado pq tem um construtor que ajuda la
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "Sao Paulo");
 		
+		Cidade c1 = new Cidade(null, "Uberlandia", est1);
+		Cidade c2 = new Cidade(null, "Sao Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
 		
-		
-		
+		//Quem sao as cidades associadas com o estado ? 
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+
+		estadoRepository.save(Arrays.asList(est1, est2));
+		cidadeRepository.save(Arrays.asList(c1,c2,c3));
 		
 		
 		
