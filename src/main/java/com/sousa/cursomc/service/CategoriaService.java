@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.sousa.cursomc.domain.Categoria;
+import com.sousa.cursomc.dto.CategoriaDTO;
 import com.sousa.cursomc.exception.ObjectNotFoundException;
 import com.sousa.cursomc.repository.CategoriaRepository;
 
@@ -59,8 +60,12 @@ public class CategoriaService {
 		return categoriaRepository.findAll(pageRequest);
 	}
 	
-	
-	
+	//Conversao de Categoria para DTO para metodo insert do resource
+	//eh um metodo auxiliar
+	//validacao do campo notempty length ...
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+	}
 	
 	
 	
