@@ -1,6 +1,7 @@
 package com.sousa.cursomc.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.sousa.cursomc.domain.Categoria;
@@ -32,7 +33,15 @@ public class CategoriaService {
 		return categoriaRepository.save(obj);
 	}
 	
-	
+	public void delete(Integer id) {
+		find(id);
+		try {
+		categoriaRepository.delete(id);
+		}
+		catch(DataIntegrityViolationException ex) {
+			throw new DataIntegrityViolationException("Nao é possivel excluir uma categoria que possui produtos");
+		}
+	}
 	
 	
 	
