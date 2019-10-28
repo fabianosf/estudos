@@ -114,12 +114,6 @@ public class Cliente implements Serializable {
 	
 	
 	
-	
-	
-	
-	
-	
-	
 
 	public List<Pedido> getPedidos() {
 		return pedidos;
